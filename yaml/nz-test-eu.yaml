@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+    dbhost:
+        image: mongo:4.0.2-xenial
+        restart: always
+        container_name: dbhost
+        volumes:
+            - ~/Prog/data-warehouse:/warehouse
+            - $HOME/data/db:/data/db
+        ports:
+            - "27018:27017"
+        command: mongod --logpath=/dev/null
+    nooze:
+        build:
+            context: ..
+        depends_on:
+            - dbhost
+        volumes:
+            - $HOME/confs:/app/confs
+        image: artgoldhammer/nooze
+        container_name: eunews
+        restart: always
+        environment:
+            NZDBCONF: /app/confs/nz-dkr-test-eu.conf
+        ports:
+            - "9091:9090"
+            - "3031:3031"

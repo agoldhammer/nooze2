@@ -1,0 +1,67 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}US News{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" type="text/css"
+  href="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+<link rel="stylesheet" type="text/css"
+  href="{{ url_for('static', filename='news.css') }}" />
+<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+<!-- <link rel="apple-touch-icon icon" href="{{ url_for ('static', filename=
+     'apple-touch-icon-180x180.png') }}" sizes="180x180" /> -->
+<link rel="apple-touch-icon" sizes="57x57" href="{{ url_for('static', filename='apple-icon-57x57.png' ) }}">
+<link rel="apple-touch-icon" sizes="60x60" href="{{ url_for('static', filename='apple-icon-60x60.png' ) }}">
+<link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='apple-icon-72x72.png' ) }}">
+<link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='apple-icon-76x76.png' ) }}">
+<link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='apple-icon-114x114.png' ) }}">
+<link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='apple-icon-120x120.png' ) }}">
+<link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='apple-icon-144x144.png' ) }}">
+<link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='apple-icon-152x152.png' ) }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-icon-180x180.png' ) }}">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ url_for('static', filename='android-icon-192x192.png' ) }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png' ) }}" />
+<link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon-96x96.png' ) }}" />
+<link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png' ) }}" />
+<link rel="manifest" href="/manifest.json"/>
+<meta name="msapplication-TileColor" content="#ffffff"/>
+<meta name="msapplication-TileImage" content="/ms-icon-144x144.png"/>
+<meta name="theme-color" content="#ffffff"/>
+{% endblock %}
+
+{% block navbar %}
+<div id="custom-bootstrap-menu" class="navbar navbar-default " role="navigation">
+    <div class="container-fluid">
+	<div class="navbar-header">
+	    <button type="button" class="navbar-toggle"
+	       data-toggle="collapse" data-target=".navbar-menubuilder">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	    </button>
+	    <a class="navbar-brand"
+	      href="{{ url_for('query')}}">&#9664; US News</a>
+	</div>
+	<div class="collapse navbar-collapse navbar-menubuilder">
+	    <ul class="nav navbar-nav">
+		<li><a href="{{ url_for('showStats')}}">Stats</a></li>
+		<li role="separator" class="divider"></li>
+		<li><a href="{{ url_for('showHelp')}}">Help</a></li>
+	    </ul>
+	</div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  {{super()}}
+  <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <script type="text/javascript"
+     src="https://cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js">
+  </script>
+  <script type="text/javascript"
+    src="{{ url_for('static', filename='news.js') }}"></script>
+{% endblock %}

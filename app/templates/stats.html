@@ -1,0 +1,35 @@
+{% extends "webapp-base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+	 <h3 class="pghead">US News: Database Statistics</h3>
+    </div>
+
+
+    <!-- row of time controls-->
+    <h4>
+	Articles in database: {{n}}
+    </h4>
+
+
+<!-- categories and topics -->
+    <div class="col-xs-12">
+	    <h1>Topics</h1>
+    </div>
+
+    <div class="col-xs-8">
+
+	    {% for  cat in cats %}
+	    <h4>{{ cat }}</h4>
+	    <ul>
+		{% for topic in cats[cat] %}
+		    <li class="stat" id="{{topic['topic']}}">
+			{{ topic["desc"] }}: {{topic["percent"]}}</li>
+		{% endfor %}
+	    </ul>
+	    {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

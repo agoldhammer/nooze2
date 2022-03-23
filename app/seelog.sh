@@ -1,0 +1,2 @@
+ls -lR /var/log
+

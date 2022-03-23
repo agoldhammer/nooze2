@@ -1,0 +1,45 @@
+{% extends "webapp-base.html" %}
+
+{% block title %}US News{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='news.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+      <h3 class="pghead">Selected Items</h3>
+    </div>
+    <div class="row" style="height: 5px"> </div>
+    <div class="col-xs-1 col-md-2 col-lg-2 col-xl-2"></div>
+    <div class="statusbox col-xs-10 col-md-4 col-lg-6 col-xl-6">
+    {% if row.header %}
+      {% for status in row.statuses %}
+      <div class="row">
+	<div class="statusslug">
+	  <span>
+	    &lt;{{status.author}}&gt; [{{status.created_at}}] via {{status.source}}
+	  </span>
+	</div>
+      </div>
+      <div class="w-100"></div>
+      <div class="row">
+	<div class="statustext">
+	  <span>
+	    {{status.text|taburlize|safe}}
+	  </span>
+	</div>
+      </div>
+      <div class="row" style="height: 4px"> </div>
+      <div class="w-100"></div>
+      {% endfor %}
+    {% else %}
+      <div class="statustext">
+	<span>Query returned no results</span>
+      </div>
+    {% endif %} <!-- close if on row.statuses -->
+    </div> <!-- close statusbox -->
+</div>
+{% endblock %}

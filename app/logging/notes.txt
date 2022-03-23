@@ -1,0 +1,10 @@
+must copy conf files from app/logging to /etc/logrotate.d
+chown 644
+make sure var/log/parentdirs are also mode 644
+https://wiki.alpinelinux.org/wiki/Alpine_Linux:FAQ#My_cron_jobs_don.27t_run.3F
+
+8/15/20: Twitter started giving 404 errors on EuropeanNews but not usnews.
+fixed by switching to ID rather than username/slug combo to identify lists
+This has been updated only in the cloud confs, not the local confs
+
+image is nooze:BUGFIX081520

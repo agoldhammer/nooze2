@@ -1,0 +1,39 @@
+{% extends "webapp-base.html" %} {% block title %}Help for US News{% endblock %}
+{% block styles %} {{ super() }}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{{ url_for('static', filename='news.css') }}"
+/>
+{% endblock %} {% block content %}
+<div class="container">
+  <div class="page-header">
+    <h2 class="pghead">Help</h2>
+  </div>
+  <div class="row" style="height: 15px"></div>
+  <div class="helpcontent">
+    <h3>Basic Search</h3>
+    <p>
+      Select the time period you wish to search. Preset choices of 3, 6, or 12
+      hours and 1, 2, or 3 days are available. Press the "Custom" button to
+      access a calendar allowing more flexible date selection. Be aware that the
+      database contains nothing prior to January 2018.
+    </p>
+    <h3>Custom text search</h3>
+    <p>
+      Type search terms in the text box, separated by spaces. Custom search
+      terms may be combined with preset searches below.
+    </p>
+    <h3>Topic Selection and Combining Topics</h3>
+    <p>
+      Select topics by clicking on the topic buttons. If you wish to search only
+      for a single topic, click the button for that topic. To select all topics
+      in a given category, click on the large button identifying the category.
+      Buttons are toggles, so click again to deselect. Once you have made your
+      selection, click the 'Submit' button to retrieve results. If no topic or
+      custom text has been selected, an error message will appear.
+    </p>
+  </div>
+  <div class="row" style="height: 10px"></div>
+</div>
+{% endblock %}

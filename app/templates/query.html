@@ -1,0 +1,113 @@
+{% extends "webapp-base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header col-xs-12 col-md-12 col-lg-12 col-xl-12">
+      <h3 class="pghead col-xs-4 col-md-4 col-lg-4 col-xl-4">US News</h3>
+      <!-- <img src="{{url_for('static', filename='DNC2008.jpg')}}" alt="US News"
+	   style="width:60%;height:84px" class="col-xs-8 col-md-8
+	   col-lg-8 col-xl-8"> -->
+      <!-- <div style="width:50px;">&nbsp;</div> -->
+      <!-- <img src="{{url_for('static', filename='nytimes.gif')}}" alt="US News"
+	   style="width:180px;height:256px"> -->
+
+      <!-- placeholder for flashed messages -->
+    {% for message in get_flashed_messages() %}
+	<div class="alert alert-danger alert-dismissible" role="alert">
+	<strong>Warning! {{ message }}</strong>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	    <span>&times;</span>
+	</button>
+	</div>
+    {% endfor %}
+
+    </div> <!-- end of page-header -->
+
+    <!-- <div class="row" style="height:15px;"></div> -->
+	<div class="col-xs-12">
+	    <h4>Articles in database: {{n}}</h4>
+	</div>
+
+    <div class="row">
+	<div class="btn-group col-xs-12 time" data-toggle="buttons">
+	    <label class="btn btn-primary btn-sm">
+		<input type="radio" name="hrs3" value="-H 3">3 hrs</label>
+	    <label class="btn btn-primary btn-sm">
+		<input type="radio" name="hrs6" value="-H 6">6 hrs</label>
+	    <label class="btn btn-primary btn-sm">
+		<input type="radio" name="hrs12" value="-H 12">12 hrs</label>
+		<!--  set 1 day as default -->
+	    <label class="btn btn-primary btn-sm active">
+		<input type="radio" name="days1" value="-d 1">1 day</label>
+	    <label class="btn btn-primary btn-sm">
+		<input type="radio" name="days2" value="-d 2">2 days</label>
+	    <label class="btn btn-primary btn-sm">
+		<input type="radio" name="days3" value="-d 3">3 days</label>
+	    <label id="customdate" class="btn btn-primary btn-sm">
+		<input type="radio" name="customdate" value="@">Custom</label>
+	</div>
+    </div>
+
+    <!-- date range selector  -->
+    <div class="row">
+	<div class="col-xs-6">
+	<div id="reportrange" class="calendar">
+	    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+	    <span></span> <b class="caret"></b>
+	</div>
+	</div>
+    </div>
+    <div class="row" style="height:10px;"></div>
+
+    <!-- custom query input box -->
+    <div class="form-group">
+      <label for="custquery">Custom query (optional, query terms separated by spaces):</label>
+      <input type="text" class="form-control" id="custquery">
+    </div>
+
+
+    <div class="col-xs-12">
+      <h4>Preset Queries (scroll):</h4>
+    </div>
+
+    <div class="maincontent">
+    <div class="advmain col-xs-6 col-md-6 col-lg-6 col-xl-6">
+
+      <!-- categories and topics -->
+      {% for  cat in cats %}
+      <div class="row advcatrow">
+	<div class="col-xs-8 col-md-8 col-lg-6 col-xl-6 cat" name="{{ cat }}">
+	  <span>{{ cat }}</span>
+	</div>
+      </div>
+
+      {% for topic in cats[cat] %}
+      <div class="row advtopicrow">
+	<div class="col-xs-1"> </div>
+	<div class="tpc col-xs-8 col-md-8 col-lg-5 col-xl5 {{ cat }}" name="{{ topic['topic'] }}">
+	  {{ topic["desc"] }}
+	</div>
+      </div>
+      {% endfor %}
+
+      {% endfor %}
+
+    </div> <!-- closes advmain -->
+
+    <div class="sidebar col-xs-6 col-md-6 col-lg-6 col-xl-6">
+	<div class="logicbuttons">
+	    <ul class="nav nav-pills nav-stacked">
+		<li id="submit" role="button" class="logicbtn">Submit</li>
+	    </ul>
+	    <span class="errorbox"></span>
+	</div>
+	<div class="pic">
+
+	</div>
+    </div> <!-- end sidebar -->
+    </div> <!-- end maincontent -->
+
+
+</div> <!-- closes container -->
+
+{% endblock %}

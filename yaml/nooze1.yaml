@@ -1,0 +1,42 @@
+version: '3.7'
+services:
+    dbhost:
+        image: mongo:4.4.4-bionic
+        restart: always
+        container_name: dbhost
+        volumes:
+            - $HOME/backup:/warehouse
+            - $HOME/data/db:/data/db
+        ports:
+            - "27018:27017"
+        command: mongod --logpath=/dev/null
+
+    usnews:
+        depends_on:
+            - dbhost
+        image: artgoldhammer/nooze310:$NZTAG
+        container_name: usnews
+        restart: always
+        volumes:
+            - $HOME/confs:/app/confs
+        environment:
+            NZDBCONF: /app/confs/cloud-us.conf
+        entrypoint: supervisord -n -c supervisor.ini
+        ports:
+            - "9090:9090"
+            - "3031:3031"
+
+    eunews:
+        depends_on:
+            - dbhost
+        image: artgoldhammer/nooze310:$NZTAG
+        container_name: eunews
+        restart: always
+        volumes:
+            - $HOME/confs:/app/confs
+        environment:
+            NZDBCONF: /app/confs/cloud-eu.conf
+        entrypoint: supervisord -n -c supervisor.ini
+        ports:
+            - "9091:9090"
+            - "3032:3031"

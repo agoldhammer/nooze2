@@ -1,0 +1,40 @@
+version: '3.7'
+services:
+    # dbhost:
+    #     image: mongo:4.0.2-xenial
+    #     restart: always
+    #     container_name: dbhost
+    #     volumes:
+    #         - $HOME/backup:/warehouse
+    #         - $HOME/data/db:/data/db
+    #     ports:
+    #         - "27018:27017"
+    #     command: mongod --logpath=/dev/null
+    eunews:
+        image: artgoldhammer/nooze310:$NZTAG
+        container_name: eunews
+        restart: "no"
+        volumes:
+            - $HOME/Prog/nooze/confs:/app/confs
+        environment:
+            NZDBCONF: /app/confs/elite-dkr-eu.conf
+        # entrypoint: tail -F /dev/null
+        entrypoint: supervisord -n -c supervisor.ini
+        ports:
+            - "9091:9090"
+            - "3032:3031"
+
+    usnews:
+        image: artgoldhammer/nooze310:$NZTAG
+        container_name: usnews
+        restart: "no"
+        volumes:
+            - $HOME/Prog/nooze/confs:/app/confs
+        environment:
+            NZDBCONF: /app/confs/elite-dkr-us.conf
+        # entrypoint: tail -F /dev/null
+        entrypoint: supervisord -n -c supervisor.ini
+        ports:
+            - "9090:9090"
+            - "3031:3031"
+ 

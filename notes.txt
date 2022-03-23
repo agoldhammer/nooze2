@@ -1,0 +1,21 @@
+ gunicorn -b 0.0.0.0:9090 main:app will start gunicorn in container
+
+ bach-dkr-elite.conf runs database on elite, app in docker on bach
+
+ 2/3/2022: run on elite with mongo4.4 running on linux, with two web apps in docker:
+  use bach-elite-test.yaml
+
+On nooze, use nooze1.yaml; docker image is artgoldhammer/nooze310:latest
+
+#
+To test app locally:
+export NZDBCONF=/home/agold/Prog/nooze/confs/bach2elite.conf
+export FLASK_APP=main
+export FLASK_DEBUG=1
+
+assumes database accessible at elite.local:27017
+flask -h 0.0.0.0 -d runs server on localhost:5000
+
+
+* nginx certbot setup
+** https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-debian-9?utm_medium=email&utm_source=IaaN&utm_campaign=09132018

@@ -1,0 +1,5 @@
+#! /bin/bash
+maketopics
+storeauthtable
+readfeed --verbose
+

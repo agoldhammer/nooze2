@@ -1,0 +1,27 @@
+version: '3.7'
+services:
+    dbhost:
+        build:
+            context: ~/Prog/twdb2
+        image: mongo:4.0.2-xenial
+        restart: always
+        container_name: dbhost
+        volumes:
+            - ~/Prog/data-warehouse:/warehouse
+            - $HOME/data/db:/data/db
+        ports:
+            - "27018:27017"
+        command: mongod --logpath=/dev/null
+    usnews:
+        build:
+            context: ..
+        depends_on:
+            - dbhost
+        image: artgoldhammer/newsapp:0920
+        container_name: sw-test-usnews
+        restart: always
+        environment:
+            TWDBCONF: /app/confs/sw-test-us.conf
+        ports:
+            - "9090:9090"
+            - "3031:3031"
