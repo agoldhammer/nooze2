@@ -3,40 +3,37 @@ FROM python:alpine
 
 LABEL maintainer="art.goldhammer@gmail.com"
 
+
+
 # substituting gunicorn for uwsgi
-RUN apk add --update --no-cache \
-    # uwsgi-python3 \
-    logrotate \
-    supervisor
+RUN apk update &&\
+    apk upgrade &&\
+    apk add --no-cache logrotate  supervisor
 
-RUN pip install --no-cache-dir --upgrade pip==22.0.3
+RUN pip install --no-cache-dir --upgrade pip==22.0.4 setuptools wheel
 
-RUN mkdir /nooze; mkdir -p /var/log/nooze
-RUN touch /var/log/nooze/nooze.log
+RUN mkdir /nooze2; mkdir -p /var/log/nooze2
+RUN touch /var/log/nooze2/nooze2.log
 
 RUN mkdir -p /var/log/gunicorn
 RUN touch /var/log/gunicorn/gunicorn.log
 RUN mkdir /app
 
-RUN mkdir -p /var/log/uwsgi
-RUN touch /var/log/uwsgi/uwsgi.log
-
 RUN chmod 755 /var/log/gunicorn
-RUN chmod 755 /var/log/nooze
-RUN chmod 755 /var/log/uwsgi
+RUN chmod 755 /var/log/nooze2
 
 # install the standing requirements
-COPY requirements.txt /nooze
-RUN pip install --no-cache-dir -r /nooze/requirements.txt
+COPY requirements.txt /nooze2
+RUN pip install --no-cache-dir -r /nooze2/requirements.txt
 RUN pip install --no-cache-dir gunicorn==20.1.0
 
 # install the app environment
 COPY nzdb/ /nooze/nzdb/
-COPY setup.py /nooze
-WORKDIR /nooze
+COPY setup.py /nooze2
+WORKDIR /nooze2
 # leave installation editable for now
-RUN pip install --no-cache-dir -e .
-# RUN rm -rf /nooze
+RUN pip install --no-cache-dir .
+RUN rm -rf /nooze2
 # 
 # CMD tail -f /dev/null
 COPY app/ /app/
