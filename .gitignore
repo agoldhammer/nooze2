@@ -3,36 +3,19 @@
 .envrc
 .cache/
 *.pyc
-newsfrt/resources/public/bak
-newsfrt/resources/public/js/compiled/out
-newsfrt/resources/public/js/compiled/test
-newsfrt/resources/public/js/compiled/json
 .pytest_cache/
 .ropeproject/
 nzdb.egg-info/
 app/static/*.png
 app/static/*.ico
 app/static/
-newsfrt/resources/public/vendor/
-.dockerignore
-tweepy-3.6.0a0.tar.gz
 confs/
-newsfrt/resources/public/json/
-newsfrt/target/
-nzdb/bin/activate
-nzdb/bin/conda
-nzdb/bin/deactivate
 htmlcov/
 .coverage
 */.nrepl-port
 */figwheel_server.log
 todo.txt
 .vscode
-nooze.code-workspace
-requirements.txt.old
-requirements.txt.lessold
 *.code-workspace
-testbars.json
-bars.json
 
 
