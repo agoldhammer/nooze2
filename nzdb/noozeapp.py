@@ -49,6 +49,9 @@ PASSWORD = nzdbConfig["PASSWORD"]
 
 templates = nzdbConfig["templates"]
 static = nzdbConfig["static"]
+# ?FIXME! add to config eventually
+images = "~/Prog/nooze2/app/images/signature.jpg"
+
 app = Flask(__name__, template_folder=templates, static_folder=static)
 
 # added 2/18/21 per
