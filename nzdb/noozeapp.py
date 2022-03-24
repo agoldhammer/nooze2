@@ -4,7 +4,15 @@ from collections import OrderedDict, defaultdict
 from itertools import chain, groupby
 from time import perf_counter
 
-from flask import Flask, flash, jsonify, redirect, render_template, request, url_for
+from flask import (
+    Flask,
+    flash,
+    jsonify,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_bootstrap import Bootstrap
 from flask.json import JSONEncoder
 
@@ -166,6 +174,12 @@ def showStats():
 @app.route("/help")
 def showHelp():
     return render_template("help.html")
+
+
+# https://stackoverflow.com/questions/63052492/cant-load-icons-from-manifest-json-file
+# @app.route("/static/icons/<path:filename>")
+# def icons(filename):
+#     return send_from_directory("./static/icons", filename)
 
 
 def extract_options(parts):
