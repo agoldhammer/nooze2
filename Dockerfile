@@ -3,14 +3,15 @@ FROM python:alpine
 
 LABEL maintainer="art.goldhammer@gmail.com"
 
-
-
 # substituting gunicorn for uwsgi
-RUN apk update &&\
-    apk upgrade &&\
-    apk add --no-cache logrotate  supervisor
+RUN apk add --update --no-cache logrotate \
+    supervisor \
+    tzdata
 
-RUN pip install --no-cache-dir --upgrade pip==22.0.4 setuptools wheel
+ENV TZ=America/New_York
+
+RUN pip install --no-cache-dir --upgrade pip==22.0.4
+# for spacy need these as well: setuptools wheel
 
 RUN mkdir /nooze2; mkdir -p /var/log/nooze2
 RUN touch /var/log/nooze2/nooze2.log
@@ -43,6 +44,5 @@ RUN chmod 644 /etc/logrotate.d/*.conf
 
 # the following line is necessary to make logrotate run w/o hiccup
 RUN touch /var/log/messages
-#
-# ENTRYPOINT ["supervisord", "-n"]
+
 
