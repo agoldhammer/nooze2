@@ -28,7 +28,7 @@ RUN pip install --no-cache-dir -r /nooze2/requirements.txt
 RUN pip install --no-cache-dir gunicorn==20.1.0
 
 # install the app environment
-COPY nzdb/ /nooze/nzdb/
+COPY nzdb/ /nooze2/nzdb/
 COPY setup.py /nooze2
 WORKDIR /nooze2
 # leave installation editable for now

@@ -20,7 +20,7 @@ services:
     volumes:
       - $HOME/confs:/app/confs
     environment:
-      NZDBCONF: /app/confs/cloud-us.conf
+      NZDBCONF: /app/confs/cloud-us-2.conf
     entrypoint: supervisord -n -c supervisor.ini
     ports:
       - "9090:9090"
@@ -35,7 +35,7 @@ services:
     volumes:
       - $HOME/confs:/app/confs
     environment:
-      NZDBCONF: /app/confs/cloud-eu.conf
+      NZDBCONF: /app/confs/cloud-eu-2.conf
     entrypoint: supervisord -n -c supervisor.ini
     ports:
       - "9091:9090"
