@@ -321,7 +321,7 @@ def count_json():
 @app.after_request
 def after_req(resp):
     resp.headers["Access-Control-Allow-Headers"] = "Content-Type"
-    resp.headers["server"] = "Nooze Server 0.2.1"
+    resp.headers["server"] = "Nooze2 Server 0.3.1"
     resp.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     return resp
 
