@@ -420,17 +420,17 @@ def status_from_id(id):
     return db.statuses.find_one({"id": id})
 
 
-def fetch_recent(cmdline="-H 3 dummy"):
-    """fetch recent statuses as defined by cmdline
+# def fetch_recent(cmdline="-H 3 dummy"):
+#     """fetch recent statuses as defined by cmdline
 
-    :param cmdline: a dummy cmdline, such as "-H 8 dummy"
-    :returns: cursor of statuses as for esearch
-    :rtype: pymongo cursor
+#     :param cmdline: a dummy cmdline, such as "-H 8 dummy"
+#     :returns: cursor of statuses as for esearch
+#     :rtype: pymongo cursor
 
-    """
-    search_context = processCmdLine(cmdline)
-    search_context.query = None
-    return esearch(search_context, DESCENDING)
+#     """
+#     search_context = processCmdLine(cmdline)
+#     search_context.query = None
+#     return esearch(search_context, DESCENDING)
 
 
 def xget_by_date(query):

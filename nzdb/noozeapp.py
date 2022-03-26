@@ -18,7 +18,7 @@ from flask.json import JSONEncoder
 
 from nzdb.configurator import nzdbConfig
 from nzdb.dbif import (
-    fetch_recent,
+    # fetch_recent,
     getCount,
     getTopics,
     websearch,
@@ -90,34 +90,34 @@ def mstimer():
     return 1000 * perf_counter()
 
 
-def getStats():
-    """
-    :returns: dictionary {"size": total num statuses,
-        "cats": dict of stats} where
-        a stat is a dictionary {"query": str descriptor of topic, "stat":
-            is slug describing no of entries on topic and % of total}
-    """
-    size = getCount()
-    topics = list(getTopics())
-    topics = sorted(topics, key=lambda topic: topic["cat"])
-    # for topic in topics:
-    #     # TODO: fix this, looking back only 1 week but comparing to all time
-    #     query = "-d 7 " + topic["query"]
-    #     err, cursor = websearch(query)
-    #     if not err:
-    #         n = cursor.estimated_document_count()
-    #         topic["count"] = n
-    #         topic["percent"] = "{:.2%}".format(1.0 * n / size)
-    groups = groupby(topics, key=lambda topic: topic["cat"])
-    temp = defaultdict(list)
-    for cat, group in groups:
-        for topic in group:
-            temp[cat].append(topic)
-    cats = OrderedDict()
-    keys = sorted([k for k in temp])
-    for key in keys:
-        cats[key] = temp[key]
-    return size, cats
+# def getStats():
+#     """
+#     :returns: dictionary {"size": total num statuses,
+#         "cats": dict of stats} where
+#         a stat is a dictionary {"query": str descriptor of topic, "stat":
+#             is slug describing no of entries on topic and % of total}
+#     """
+#     size = getCount()
+#     topics = list(getTopics())
+#     topics = sorted(topics, key=lambda topic: topic["cat"])
+#     # for topic in topics:
+#     #     # TODO: fix this, looking back only 1 week but comparing to all time
+#     #     query = "-d 7 " + topic["query"]
+#     #     err, cursor = websearch(query)
+#     #     if not err:
+#     #         n = cursor.estimated_document_count()
+#     #         topic["count"] = n
+#     #         topic["percent"] = "{:.2%}".format(1.0 * n / size)
+#     groups = groupby(topics, key=lambda topic: topic["cat"])
+#     temp = defaultdict(list)
+#     for cat, group in groups:
+#         for topic in group:
+#             temp[cat].append(topic)
+#     cats = OrderedDict()
+#     keys = sorted([k for k in temp])
+#     for key in keys:
+#         cats[key] = temp[key]
+#     return size, cats
 
 
 # added this to speed up load of home page
@@ -165,10 +165,10 @@ def showError():
     return render_template("error.html")
 
 
-@app.route("/stats")
-def showStats():
-    n, cats = getStats()
-    return render_template("stats.html", n=n, cats=cats)
+# @app.route("/stats")
+# def showStats():
+#     n, cats = getStats()
+#     return render_template("stats.html", n=n, cats=cats)
 
 
 @app.route("/help")
@@ -295,23 +295,23 @@ def count_json():
     return resp
 
 
-@app.route("/json/recent", methods=["GET", "POST"])
-def recent_json():
-    # this will get last 3 hours of posts
-    t0 = mstimer()
-    error, cursor = fetch_recent()
-    t1 = mstimer()
-    if error is None:
-        # cursor = [unid(s) for s in cursor]
-        # t2 = mstimer_ns()
-        resp = jsonify([s for s in cursor])
-        # resp.headers["Access-Control-Allow-Origin"] = "*"
-        t2 = mstimer()
-        logger.debug(f"recent: fetch {t1 - t0},  jsonify {t2 - t1} ")
-        return resp
-    else:
-        t0 = 0
-        return 0
+# @app.route("/json/recent", methods=["GET", "POST"])
+# def recent_json():
+#     # this will get last 3 hours of posts
+#     t0 = mstimer()
+#     error, cursor = fetch_recent()
+#     t1 = mstimer()
+#     if error is None:
+#         # cursor = [unid(s) for s in cursor]
+#         # t2 = mstimer_ns()
+#         resp = jsonify([s for s in cursor])
+#         # resp.headers["Access-Control-Allow-Origin"] = "*"
+#         t2 = mstimer()
+#         logger.debug(f"recent: fetch {t1 - t0},  jsonify {t2 - t1} ")
+#         return resp
+#     else:
+#         t0 = 0
+#         return 0
 
 
 # TODO: need to do something about flashed error messages in handleQuery
@@ -326,31 +326,35 @@ def after_req(resp):
     return resp
 
 
-@app.route("/json/qry", methods=["GET", "POST"])
-def qry_json():
-    logger.debug(f"qry_json: {request.args}")
-    query = request.args.get("data")
-    # print(query)
-    t0 = mstimer()
-    statuses = handleQuery(query)
-    t1 = mstimer()
-    # statuses = [unid(s) for s in statuses]
-    # t2 = mstimer_ns()
-    # resp = jsonify([s for s in statuses])
-    resp = jsonify(list(statuses))
-    t2 = mstimer()
-    logger.debug(f"qry_json: fetch {t1 - t0}, jsonify {t2 - t1} ")
-    return resp
+# @app.route("/json/qry", methods=["GET", "POST"])
+# def qry_json():
+#     logger.debug(f"qry_json: {request.args}")
+#     query = request.args.get("data")
+#     # print(query)
+#     t0 = mstimer()
+#     statuses = handleQuery(query)
+#     t1 = mstimer()
+#     # statuses = [unid(s) for s in statuses]
+#     # t2 = mstimer_ns()
+#     # resp = jsonify([s for s in statuses])
+#     resp = jsonify(list(statuses))
+#     t2 = mstimer()
+#     logger.debug(f"qry_json: fetch {t1 - t0}, jsonify {t2 - t1} ")
+#     return resp
 
 
 @app.route("/json/xqry", methods=["POST"])
 def xqry():
+    t0 = mstimer()
     xquery = request.get_json()
     err, statuses = xwebsearch(xquery)
+    t1 = mstimer()
     if err is None:
         resp = jsonify(statuses=list(statuses), error=0)
     else:
         resp = jsonify(statuses=[], error=str(err))
+    t2 = mstimer()
+    logger.debug(f"xqry: fetch {t1 - t0}, jsonify {t2 - t1}")
     return resp
 
 
