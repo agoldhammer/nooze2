@@ -90,6 +90,11 @@ def cleanTopicsCollection():
     db.topics.drop()
 
 
+def cleanAuthorsCollection():
+    db = get_db()
+    db.authors.drop()
+
+
 def storeTopic(topic):
     """
     Stores topic dict in topics collectiion, indexed by topic
@@ -211,15 +216,16 @@ def _setup_mongo_query_from_xquery(xquery):
         xquery["words"] is a list of strings
     """
     # ?NB: setup expects xquery["words"] to be an array of words
-    words = xquery["words"]
-    if len(words) == 1 and words[0] == "":
-        words = None
-    else:
-        words = " ".join(words)
     startde = delorean.parse(xquery["start"], yearfirst=True, dayfirst=False).datetime
     endde = delorean.parse(xquery["end"], yearfirst=True, dayfirst=False).datetime
-    search_context = SearchContext(startde, endde, words, None)
-    return _setup_mongo_query(search_context)
+    searchon = {"created_at": {"$gte": startde, "$lt": endde}}
+    words = xquery["words"]
+    if len(words) == 1 and words[0] == "":
+        return searchon
+    expanded_query = [expand_topic(word) for word in words if word != ""]
+    words = " ".join(expanded_query)
+    searchon |= {"$text": {"$search": words, "$diacriticSensitive": False}}
+    return searchon
 
 
 def esearch(search_context, sort_dir=ASCENDING):
@@ -272,6 +278,8 @@ def xwebsearch(xquery, sort_dir=DESCENDING):
     db = get_db()
     try:
         searchon = _setup_mongo_query_from_xquery(xquery)
+        # # !FIXME: this is a check on how websearch is searching, remove!
+        # print(f"dbif:websearch:searchon: {searchon}")
         cursor = db.statuses.find(searchon, {"_id": False})
         return None, cursor.sort("created_at", sort_dir)
     except Exception as e:

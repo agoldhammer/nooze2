@@ -347,6 +347,8 @@ def after_req(resp):
 def xqry():
     t0 = mstimer()
     xquery = request.get_json()
+    # # !FIXME: this is a check on xqry; remove later
+    # print(f"xqry: {xquery}")
     err, statuses = xwebsearch(xquery)
     t1 = mstimer()
     if err is None:
